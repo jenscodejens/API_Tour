@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Tournament_Core\Tournament_Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
