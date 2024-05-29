@@ -6,7 +6,7 @@ namespace Tournament_Core.Entities
     {
         [Key]
         public int Id { get; set; }
-        public string Title { get; set; }
+        public string Title { get; set; } = default!;
         public DateTime StartDate { get; set; }
         public ICollection<Game> Games { get; set; } = new List<Game>();
     }
