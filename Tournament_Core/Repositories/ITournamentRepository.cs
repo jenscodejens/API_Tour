@@ -2,6 +2,7 @@
 
 namespace Tournament_Core.Repositories
 {
+    //TODO: Borde kunna använda IRepository<T> eller IRepository<T> : class, gör klart basic först
     public interface ITournamentRepository
     {
         Task<IEnumerable<Tournament>> GetAllAsync();
@@ -10,6 +11,7 @@ namespace Tournament_Core.Repositories
         void Add(Tournament tournament);
         void Update(Tournament tournament);
         void Remove(Tournament tournament);
+        Task SaveChangesAsync();
     }
 }
 

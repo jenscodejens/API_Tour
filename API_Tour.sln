@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.34909.67
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament_Api", "API_Tour\Tournament_Api.csproj", "{F426976A-1F46-4333-B94E-CBE4B34D33BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tournament_Api", "API_Tour\Tournament_Api.csproj", "{F426976A-1F46-4333-B94E-CBE4B34D33BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament_Core", "Tournament_Core\Tournament_Core.csproj", "{229600BB-E4C9-4DAA-AF7F-B5AB4D51670F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tournament_Core", "Tournament_Core\Tournament_Core.csproj", "{229600BB-E4C9-4DAA-AF7F-B5AB4D51670F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournament_Data", "Tournament_Data\Tournament_Data.csproj", "{9AC198FD-1A67-4DDB-A6D6-81B68193A09F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tournament_Data", "Tournament_Data\Tournament_Data.csproj", "{9AC198FD-1A67-4DDB-A6D6-81B68193A09F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{433FB86D-08E3-4D6D-9F1F-9BED0712BA3A}"
+	ProjectSection(SolutionItems) = preProject
+		Todos.txt = Todos.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
