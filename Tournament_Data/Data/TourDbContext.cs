@@ -3,12 +3,8 @@ using Tournament_Core.Entities;
 
 namespace Tournament_Data.Data
 {
-    public class TourDbContext : DbContext
+    public class TourDbContext(DbContextOptions<TourDbContext> options) : DbContext(options)
     {
-        public TourDbContext(DbContextOptions<TourDbContext> options) : base(options)
-        {
-        }
-
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<Game> Games { get; set; }
 

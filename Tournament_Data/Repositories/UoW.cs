@@ -3,17 +3,12 @@ using Tournament_Data.Data;
 
 namespace Tournament_Data.Repositories
 {
-    public class UoW : IUoW
+    public class UoW(TourDbContext context) : IUoW
     {
-        private readonly TourDbContext _context;
+        private readonly TourDbContext _context = context;
         public ITournamentRepository TournamentRepository => new TournamentRepository(_context);    
 
         public IGameRepository GameRepository => new GameRepository(_context);
-
-        public UoW(TourDbContext context)
-        {
-            this._context = context;
-        }
 
         public async Task CompleteAsync()
         {

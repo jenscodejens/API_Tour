@@ -9,14 +9,9 @@ namespace Tournament_Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GamesController : ControllerBase
+    public class GamesController(IUoW uoW) : ControllerBase
     {
-        private readonly IUoW uoW;
-
-        public GamesController(IUoW uoW)
-        {
-            this.uoW = uoW;
-        }
+        private readonly IUoW uoW = uoW;
 
         // GET: api/Games
         [HttpGet]
@@ -69,7 +64,7 @@ namespace Tournament_Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Game>> PostGame(Game game)
         {
-            var tournamentExists = await uoW.GameRepository.AnyAsync(game.TournamentId);
+            bool tournamentExists = await uoW.GameRepository.AnyAsync(game.TournamentId);
 
             if (!tournamentExists)
             {

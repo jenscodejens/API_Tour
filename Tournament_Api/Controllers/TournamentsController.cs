@@ -6,14 +6,9 @@ namespace Tournament_Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TournamentsController : ControllerBase
+    public class TournamentsController(IUoW uoW) : ControllerBase
     {
-        private readonly IUoW uoW;
-
-        public TournamentsController(IUoW uoW)
-        {
-            this.uoW = uoW;
-        }
+        private readonly IUoW uoW = uoW;
 
         // GET: api/Tournaments
         [HttpGet]

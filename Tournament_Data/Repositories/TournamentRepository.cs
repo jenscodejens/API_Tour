@@ -5,14 +5,9 @@ using Tournament_Data.Data;
 
 namespace Tournament_Data.Repositories
 {
-    public class TournamentRepository : ITournamentRepository
+    public class TournamentRepository(TourDbContext context) : ITournamentRepository
     {
-        private readonly TourDbContext _context;
-
-        public TournamentRepository(TourDbContext context)
-        {
-            _context = context;
-        }
+        private readonly TourDbContext _context = context;
 
         public async Task<IEnumerable<Tournament>> GetAllAsync()
         {
