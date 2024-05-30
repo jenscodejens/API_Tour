@@ -11,18 +11,18 @@ namespace Tournament_Api.Controllers
     [ApiController]
     public class GamesController : ControllerBase
     {
-        private readonly IGameRepository _repository;
+        private readonly IUoW uoW;
 
-        public GamesController(IGameRepository repository)
+        public GamesController(IUoW uoW)
         {
-            _repository = repository;
+            this.uoW = uoW;
         }
 
         // GET: api/Games
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Game>>> GetGame()
         {
-            var games = await _repository.GetAllAsync();
+            var games = await uoW.GameRepository.GetAllAsync();
 
             if (!games.Any())
             {
@@ -36,7 +36,7 @@ namespace Tournament_Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Game>> GetGame(int id)
         {
-            var game = await _repository.GetAsync(id);
+            var game = await uoW.GameRepository.GetAsync(id);
 
             if (game == null)
             {
@@ -55,11 +55,11 @@ namespace Tournament_Api.Controllers
                 return BadRequest();
             }
 
-            if (!await _repository.AnyAsync(id))
+            if (!await uoW.GameRepository.AnyAsync(id))
             {
                 return NotFound();
             }
-            _repository.Update(game);
+            uoW.GameRepository.Update(game);
 
             return NoContent();
         }
@@ -69,15 +69,15 @@ namespace Tournament_Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Game>> PostGame(Game game)
         {
-            var tournamentExists = await _repository.AnyAsync(game.TournamentId);
+            var tournamentExists = await uoW.GameRepository.AnyAsync(game.TournamentId);
 
             if (!tournamentExists)
             {
                 return BadRequest();
             }
 
-            _repository.Add(game);
-            await _repository.SaveChangesAsync();
+            uoW.GameRepository.Add(game);
+            await uoW.CompleteAsync();
 
             return CreatedAtAction("GetGame", new { id = game.Id }, game);
         }
@@ -86,15 +86,15 @@ namespace Tournament_Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGame(int id)
         {
-            var game = await _repository.GetAsync(id);
+            var game = await uoW.GameRepository.GetAsync(id);
             
             if (game == null)
             {
                 return NotFound("Game not found");
             }
 
-            _repository.Remove(game);
-            await _repository.SaveChangesAsync();
+            uoW.GameRepository.Remove(game);
+            await uoW.CompleteAsync();
 
             return NoContent();
         }

@@ -52,10 +52,5 @@ namespace Tournament_Data.Repositories
         {
             _context.Games.Remove(game);
         }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
     }
 }
