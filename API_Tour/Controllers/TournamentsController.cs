@@ -31,9 +31,10 @@ namespace Tournament_Api.Controllers
         public async Task<ActionResult<Tournament>> GetTournament(int id)
         {
             var tournament = await _repository.GetAsync(id);
+
             if (tournament == null)
             {
-                return NotFound();
+                return NotFound("Tournament not found");
             }
 
             return tournament;

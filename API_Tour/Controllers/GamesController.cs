@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Tournament_Core.Entities;
 using Tournament_Core.Repositories;
 using Tournament_Data.Data;
+using Tournament_Data.Repositories;
 
 namespace Tournament_Api.Controllers
 {
@@ -33,47 +34,40 @@ namespace Tournament_Api.Controllers
 
             if (game == null)
             {
-                return NotFound();
+                return NotFound("Game not found");
             }
 
             return Ok(game);
         }
 
         // GET: api/Games/5
+        // TODO: check that TournamentId exists too
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGame(int id, Game game)
+        public async Task<IActionResult> PutGame([FromBody] int id)
         {
-            if (id != game.Id)
+            var game = await _repository.GetAsync(id);
+
+            if (id != game.Id && !GameExists(id).Result)
             {
                 return BadRequest();
             }
 
             _repository.Update(game);
-
-            try
-            {
-                await _repository.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await _repository.AnyAsync(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
             return NoContent();
         }
 
         // POST: api/Games
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Game>> PostGame(Game game)
+        public async Task<ActionResult<Game>> PostGame([FromBody] Game game)
         {
+            var tournamentExists = await _repository.AnyAsync(game.TournamentId);
+
+            if (!tournamentExists)
+            {
+                return BadRequest("No tournament with that Id");
+            }
+
             _repository.Add(game);
             await _repository.SaveChangesAsync();
 
@@ -85,6 +79,7 @@ namespace Tournament_Api.Controllers
         public async Task<IActionResult> DeleteGame(int id)
         {
             var game = await _repository.GetAsync(id);
+            
             if (game == null)
             {
                 return NotFound();
@@ -96,5 +91,9 @@ namespace Tournament_Api.Controllers
             return NoContent();
         }
 
+        private async Task<bool> GameExists(int id)
+        {
+            return await _repository.AnyAsync(id);
+        }
     }
 }

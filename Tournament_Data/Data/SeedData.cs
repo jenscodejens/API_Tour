@@ -7,6 +7,9 @@ namespace Tournament_Data.Data
     {
         public static async Task InitAsync(TourDbContext context)
         {
+            await context.Database.EnsureDeletedAsync();
+            await context.Database.MigrateAsync();
+
             // Create 3 tournaments, each with one game
             var seeds = new List<(string TournamentTitle, string GameTitle)>
             {
