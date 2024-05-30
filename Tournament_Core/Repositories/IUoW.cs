@@ -4,7 +4,6 @@
     {
         public ITournamentRepository TournamentRepository { get; }
         public IGameRepository GameRepository { get; }
-
         Task CompleteAsync();
     }
 }

@@ -40,7 +40,6 @@ namespace Tournament_Data.Repositories
         public void Update(Game game)
         {
             _context.Games.Update(game);
-            _context.SaveChanges();
         }
 
         public void Remove(Game game)

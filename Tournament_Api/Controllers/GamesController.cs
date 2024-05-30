@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Tournament_Core.Entities;
 using Tournament_Core.Repositories;
-using Tournament_Data.Data;
 using Tournament_Data.Repositories;
 
 namespace Tournament_Api.Controllers
@@ -55,6 +53,7 @@ namespace Tournament_Api.Controllers
                 return NotFound();
             }
             uoW.GameRepository.Update(game);
+            await uoW.CompleteAsync();
 
             return NoContent();
         }
@@ -82,7 +81,7 @@ namespace Tournament_Api.Controllers
         public async Task<IActionResult> DeleteGame(int id)
         {
             var game = await uoW.GameRepository.GetAsync(id);
-            
+
             if (game == null)
             {
                 return NotFound("Game not found");

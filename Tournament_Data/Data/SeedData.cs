@@ -3,7 +3,7 @@ using Tournament_Core.Entities;
 
 namespace Tournament_Data.Data
 {
-    public class SeedData
+    public static class SeedData
     {
         public static async Task InitAsync(TourDbContext context)
         {

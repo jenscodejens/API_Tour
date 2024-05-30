@@ -52,6 +52,7 @@ namespace Tournament_Api.Controllers
                 return NotFound();
             }
             uoW.TournamentRepository.Update(tournament);
+            await uoW.CompleteAsync();
 
             return NoContent();
         }

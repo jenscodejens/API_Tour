@@ -37,7 +37,6 @@ namespace Tournament_Data.Repositories
         public void Update(Tournament tournament)
         {
             _context.Tournaments.Update(tournament);
-            _context.SaveChanges();
         }
 
         public void Remove(Tournament tournament)
