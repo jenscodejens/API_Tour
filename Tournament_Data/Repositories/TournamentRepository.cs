@@ -22,16 +22,12 @@ namespace Tournament_Data.Repositories
         public async Task<Tournament?> GetAsync(int id)
         {
             var result = await _context.Tournaments
-               .Include(t => t.Games)
-               .FirstOrDefaultAsync(t => t.Id == id);
-
-            if (result == null)
-            {
-                throw new KeyNotFoundException($"No tournament found with Id: {id}");
-            }
+              .Include(t => t.Games)
+              .FirstOrDefaultAsync(t => t.Id == id);
 
             return result;
         }
+
 
         public async Task<bool> AnyAsync(int id)
         {
@@ -45,7 +41,8 @@ namespace Tournament_Data.Repositories
 
         public void Update(Tournament tournament)
         {
-            _context.Entry(tournament).State = EntityState.Modified;
+            _context.Tournaments.Update(tournament);
+            _context.SaveChanges();
         }
 
         public void Remove(Tournament tournament)

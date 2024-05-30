@@ -23,6 +23,12 @@ namespace Tournament_Api.Controllers
         public async Task<ActionResult<IEnumerable<Tournament>>> GetTournaments()
         {
             var tournaments = await _repository.GetAllAsync();
+
+            if (!tournaments.Any())
+            {
+                return NotFound("No tournaments found");
+            }
+
             return Ok(tournaments);
         }
 
@@ -42,29 +48,18 @@ namespace Tournament_Api.Controllers
 
         // PUT: api/Tournaments/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTournament(int id, Tournament tournament)
+        public async Task<IActionResult> PutGame(int id, Tournament tournament)
         {
             if (id != tournament.Id)
             {
                 return BadRequest();
             }
 
+            if (!await _repository.AnyAsync(id))
+            {
+                return NotFound();
+            }
             _repository.Update(tournament);
-            try
-            {
-                await _repository.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await _repository.AnyAsync(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
             return NoContent();
         }
@@ -84,9 +79,10 @@ namespace Tournament_Api.Controllers
         public async Task<IActionResult> DeleteTournament(int id)
         {
             var tournament = await _repository.GetAsync(id);
+
             if (tournament == null)
             {
-                return NotFound();
+                return NotFound("Tournament not found");
             }
 
             _repository.Remove(tournament);
@@ -94,6 +90,5 @@ namespace Tournament_Api.Controllers
 
             return NoContent();
         }
-
     }
 }

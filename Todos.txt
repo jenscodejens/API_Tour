@@ -7,5 +7,3 @@ public interface IRepository<T>
     void Add(T entity);
     void Update(T entity);
     void Remove(T entity);
-
-Gå igenom allt i Postman innan mer arbete.

@@ -19,11 +19,18 @@ namespace Tournament_Data.Repositories
             return await _context.Games.ToListAsync();
         }
 
-        public async Task<Game> GetAsync(int id)
+        public async Task<Game?> GetAsync(int id)
         {
             var result = await _context.Games.FindAsync(id);
-            return result!;
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            return result;
         }
+
 
         public async Task<bool> AnyAsync(int id)
         {
@@ -37,7 +44,8 @@ namespace Tournament_Data.Repositories
 
         public void Update(Game game)
         {
-            _context.Entry(game).State = EntityState.Modified;
+            _context.Games.Update(game);
+            _context.SaveChanges();
         }
 
         public void Remove(Game game)

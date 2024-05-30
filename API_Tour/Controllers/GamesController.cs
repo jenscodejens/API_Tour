@@ -23,6 +23,12 @@ namespace Tournament_Api.Controllers
         public async Task<ActionResult<IEnumerable<Game>>> GetGame()
         {
             var games = await _repository.GetAllAsync();
+
+            if (!games.Any())
+            {
+                return NotFound("No games found");
+            }
+
             return Ok(games);
         }
 
@@ -41,31 +47,33 @@ namespace Tournament_Api.Controllers
         }
 
         // GET: api/Games/5
-        // TODO: check that TournamentId exists too
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGame([FromBody] int id)
+        public async Task<IActionResult> PutGame(int id, Game game)
         {
-            var game = await _repository.GetAsync(id);
-
-            if (id != game.Id && !GameExists(id).Result)
+            if (id != game.Id)
             {
                 return BadRequest();
             }
 
+            if (!await _repository.AnyAsync(id))
+            {
+                return NotFound();
+            }
             _repository.Update(game);
+
             return NoContent();
         }
 
         // POST: api/Games
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Game>> PostGame([FromBody] Game game)
+        public async Task<ActionResult<Game>> PostGame(Game game)
         {
             var tournamentExists = await _repository.AnyAsync(game.TournamentId);
 
             if (!tournamentExists)
             {
-                return BadRequest("No tournament with that Id");
+                return BadRequest();
             }
 
             _repository.Add(game);
@@ -82,18 +90,13 @@ namespace Tournament_Api.Controllers
             
             if (game == null)
             {
-                return NotFound();
+                return NotFound("Game not found");
             }
 
             _repository.Remove(game);
             await _repository.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private async Task<bool> GameExists(int id)
-        {
-            return await _repository.AnyAsync(id);
         }
     }
 }
