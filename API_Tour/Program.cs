@@ -13,6 +13,7 @@ builder.Services.AddDbContext<TourDbContext>(options =>
 
 builder.Services.AddScoped<ITournamentRepository, TournamentRepository>();
 builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<IUoW, UoW>();
 
 builder.Services.AddControllers();
 builder.Services.AddControllers(opt => opt.ReturnHttpNotAcceptable = true)
